@@ -13,7 +13,8 @@ def get_coordinate(address):
     html = requests.get(URL, params=payload)
     soup = BeautifulSoup(html.content, "html.parser")
     if soup.find('error'):
-        raise ValueError(f"'{address}'はみつかりませんでした。")
+        # raise ValueError(f"'{address}'はみつかりませんでした。")
+        pass
     latitude = soup.find('lat').string
     longitude = soup.find('lng').string
     return latitude, longitude
