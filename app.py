@@ -28,6 +28,8 @@ with st.sidebar:
         search_btn = st.form_submit_button("Search")
         
         lat, lon = get_coordinate(address)
+        lat = float(lat)
+        lon = float(lon)
         st.text(f"緯度 {lat}, 経度 {lon}")
 
 if search_btn:
