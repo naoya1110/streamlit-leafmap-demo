@@ -2,11 +2,16 @@ import streamlit as st
 import leafmap.foliumap as leafmap
 import requests
 from bs4 import BeautifulSoup
+import os
 
 URL = 'http://www.geocoding.jp/api/'
 
 lat = 35.658581
 lon = 139.745433
+
+ndvi_filepath = "ndvi_imgs/ndvi_20220930_104649_jst_saita.TIF"
+ndvi_filename = os.path.splitext(os.path.basename(ndvi_filepath))[0]
+_, yyyymmdd, hhmmss, _, area = ndvi_filename.split("_")
 
 def get_coordinate(address):
     payload = {'q': address}
@@ -43,5 +48,9 @@ if search_btn:
     
     # 検索した住所にピンを立てる
     map.add_marker([lat, lon], popup=f"lat={lat}, lon={lon}",)
+    map.add_raster("ndvi_imgs/ndvi_20220930_104649_jst_saita.TIF", bands=1, 
+                   palette='coolwarm',
+                   vmin=-1, vmax=1, 
+                   layer_name=f"NDVI {yyyymmdd} {hhmmss} {area}")
 
     map.to_streamlit(width=800, height=600)
